@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { APIURL } from '../env';
 
-const ProductList = () => {
+const ProductList = ({ searchQuery }) => {
     const [disabledButtons, setDisabledButtons] = useState({});
     const [products, setProducts] = useState([]);
     const dispatch = useDispatch();
@@ -37,9 +37,14 @@ const ProductList = () => {
         navigate(`/product-detail/${id}`);
     };
 
+
+    const filteredProducts = products.filter(product =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
   return (
     <>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
             <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={product.id}>
                 <div className='card productlistcard h-100'>
                     <div className='p-3' onClick={() => handleImageClick(product.id)}
@@ -47,7 +52,7 @@ const ProductList = () => {
                         <img src={product.image} alt={product.title} />
                         <h5 className='title pt-3'>{product.title}</h5>
                         <p className='description'>{product.description}</p>
-                        <h4 className='pt-2'>${product.price}</h4>
+                        <h4 className='pt-2 mb-0'>${product.price}</h4>
                     </div>
                     <div className='px-3 pb-3'>
                         <button

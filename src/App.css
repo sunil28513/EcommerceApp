@@ -18,7 +18,7 @@ th, td{
 }
 .productlistcard img{
   width: 100%;
-  height: 170px;
+  height: 110px;
   margin: 0 auto;
   display: block;
   object-fit: contain;
@@ -41,6 +41,7 @@ th, td{
   color: #ffb21d;
 }
 .productlistcard .title{
+  font-size: 16px;
   margin-bottom: 0;
   width:100%;
   color: #0C023E;
@@ -53,7 +54,7 @@ th, td{
   padding: 5px 0 0 0;
 }
 .productlistcard .description{
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 0;
     width: 100%;
     color: #0C023E;
@@ -89,4 +90,38 @@ th, td{
 }
 .shoppingcart{
   padding-top: 100px;
+}
+.form-control{
+  border-color: #949494;
+}
+
+
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.pagination a {
+  color: #333;
+  padding: 6px 12px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.pagination li.active a,
+.pagination a:hover {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
 }
