@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
 import { add } from '../Redux/Cartslice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,9 @@ import { APIURL } from '../env';
 const ProductList = ({ searchQuery }) => {
     const [disabledButtons, setDisabledButtons] = useState({});
     const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0); //react-paginate uses zero-indexed page numbers
+    const [productsPerPage] = useState(8); // Number of products per page
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -42,9 +46,21 @@ const ProductList = ({ searchQuery }) => {
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+
+    const handlePageClick = ({ selected: selectedPage }) => {
+        setCurrentPage(selectedPage);
+    };
+
+        // Calculate the products to display on the current page
+        const offset = currentPage * productsPerPage;
+        const currentProducts = filteredProducts.slice(offset, offset + productsPerPage);
+        // Calculate the total number of pages
+        const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
+
   return (
     <>
-        {filteredProducts.map((product) => (
+        {/* {filteredProducts.map((product) => ( */}
+        {currentProducts.map((product) => (
             <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={product.id}>
                 <div className='card productlistcard h-100'>
                     <div className='p-3' onClick={() => handleImageClick(product.id)}
@@ -66,6 +82,22 @@ const ProductList = ({ searchQuery }) => {
                 </div>
             </div>
         ))}
+
+<div className="pagination mt-4">
+                <ReactPaginate
+                    previousLabel={"Previous"}
+                    nextLabel={"Next"}
+                    breakLabel={"..."}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    activeClassName={"active"}
+                />
+            </div>
+
+
     </>
   )
 }
